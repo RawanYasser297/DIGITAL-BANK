@@ -16,6 +16,10 @@
   --padding: 1rem;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 *,
 *::before,
 *::after {
@@ -28,11 +32,6 @@
   font-family: var(--Family);
 }
 
-body {
-  overflow-x: hidden;
-  background-color: var(--Gray-50);
-}
-
 ul {
   list-style: none;
 }
@@ -40,6 +39,7 @@ ul {
 a,
 a:visited {
   text-decoration: none;
+  transition: 0.2s;
 }
 
 a,
@@ -99,20 +99,22 @@ section {
 .container {
   position: relative;
   margin: 0 auto;
-  // width: 1150px;
-  max-width: 90%;
+  width: 90%;
   @include displayFlex($gap: calc(var(--gap) * 2));
 }
 
-.container::before {
+.home {
+  position: relative;
+}
+.home::before {
   content: "";
   background: url("/images/bg-intro-desktop.svg") no-repeat;
   background-size: cover;
   position: absolute;
   left: 45%;
-  top: -10%;
-  width: 950px;
-  height: 900px;
+  top: -55%;
+  width: 100%;
+  height: 150%;
   z-index: -1000;
 }
 
@@ -122,6 +124,7 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: var(--padding) 0;
+
   nav,
   .logo,
   .nav__button {
@@ -154,18 +157,15 @@ header::before {
   justify-content: flex-end;
 }
 
- li a:hover{
-    color:var(--Green-500);
+li a:hover {
+  color: var(--Green-500);
 }
 
 .icon-hamburger {
   display: none;
 }
-
 .home {
-  gap: 0;
-  flex-direction: row-reverse;
-  align-items: flex-start;
+  flex-direction: row;
 }
 
 .home__content {
@@ -174,10 +174,9 @@ header::before {
 }
 
 .bg {
-  width: 50vw;
-  height: 100vh;
-  margin-top: -20%;
-  transform: translateX(31%);
+  width: 700px;
+  height: 600px;
+  transform: translate(25%, -40%);
   z-index: -3;
 
   img {
@@ -268,8 +267,8 @@ header::before {
   font-weight: var(--Weights-700);
 }
 
-.blog__list-item-pbold:hover{
-    color: var(--Cyan-400);
+.blog__list-item-pbold:hover {
+  color: var(--Cyan-400);
 }
 
 .blog__list-item-plight {
@@ -350,6 +349,7 @@ footer::before {
   .main__header {
     font-size: 2.3rem;
   }
+
   .main__paragraph {
     width: 450px;
     font-size: 1.2rem;
@@ -358,18 +358,6 @@ footer::before {
   .container {
     width: 90%;
   }
-
-  //   .home {
-  //     height: 70vh;
-  //   }
-
-  //   .about {
-  //     height: 0vh;
-  //   }
-
-  //   .blog {
-  //     height: 70vh;
-  //   }
 
   .bg {
     width: 600px;
@@ -387,6 +375,14 @@ footer::before {
 }
 
 @media (max-width: 768px) {
+  .bg {
+    order: -1;
+    width: 100%;
+    max-width: 500px;
+    max-height: 500px;
+    margin: -220px auto 0px;
+    transform: translate(0px, 0px);
+  }
   .nav__button {
     display: none;
   }
@@ -419,14 +415,9 @@ footer::before {
   .icon-hamburger {
     cursor: pointer;
     display: inline-block;
-
     img {
       cursor: pointer;
     }
-  }
-
-  .icon-hamburger:hover {
-    color: red;
   }
 
   .icon-hamburger-checkbox {
@@ -437,32 +428,25 @@ footer::before {
     top: 125%;
   }
 
-  .main__paragraph {
-    width: 390px;
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 500px) {
-  .container{
-    max-width: var(--Mobile);
-    
-  }
-  .bg {
-    width: 350px;
-    height: 300px;
-    transform: translate(15%, -40%);
-  }
-
   .home {
-    height: 105vh;
     flex-direction: column;
-    gap: 2rem;
+    gap: 10rem;
+    height: 100vh;
+    z-index: -1;
+  }
+
+  .home::before {
+    background-image: url(/images/bg-intro-mobile.svg);
+    left: 0%;
+    top: -15%;
+    width: 100%;
+    height: 50%;
   }
 
   .home__content {
     max-width: 100%;
     align-items: center;
+    @include displayFlex($gap: calc(var(--gap) / 2));
   }
   .main__paragraph,
   .about__list-item-pragrph {
@@ -473,13 +457,6 @@ footer::before {
   }
   .nav__button {
     display: none;
-  }
-  .container::before {
-    background-image: url(/images/bg-intro-mobile.svg);
-    left: 0%;
-    width: 500px;
-    height: 50vh;
-    top: 0%;
   }
 
   h2 {
@@ -494,7 +471,7 @@ footer::before {
 
   .blog__list,
   .about__list {
-    grid-template-columns: auto;
+    grid-template-columns: repeat(2,1fr);
     justify-items: center;
   }
 
@@ -525,4 +502,26 @@ footer::before {
   .footer__c-4 {
     align-items: center;
   }
+}
+
+@media (max-width: 500px) {
+  .container {
+    max-width: var(--Mobile);
+  }
+
+  .home {
+    height: 105vh;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .blog__list,
+  .about__list {
+    grid-template-columns: auto;
+    justify-items: center;
+  }
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--Gray-50);
 }
